@@ -70,6 +70,23 @@ function sanitizeHtmlPreservingFormatting(html, opts) {
       .replace(/\n{3,}/g, '\n\n');
   }
 
+  // ------- HTML NORMALIZATION FIXES ------- //
+
+  // Remove whitespace between tags
+  cleanedHtml = cleanedHtml.replace(/>\s+</g, '><');
+
+  // Collapse multiple <br> to one
+  cleanedHtml = cleanedHtml.replace(/(<br\s*\/?>\s*){2,}/gi, '<br>');
+
+  // Normalize Quill blank paragraphs
+  cleanedHtml = cleanedHtml.replace(/<p><br><\/p>/gi, '<p></p>');
+
+  // Remove completely empty paragraphs
+  cleanedHtml = cleanedHtml.replace(/<p>\s*<\/p>/gi, '');
+
+  // Collapse repeated empty paragraphs
+  cleanedHtml = cleanedHtml.replace(/(<p>\s*<\/p>){2,}/gi, '<p></p>');
+
   return cleanedHtml;
 }
 
