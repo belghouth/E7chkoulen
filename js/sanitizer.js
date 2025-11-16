@@ -36,8 +36,9 @@ function sanitizeTextContent(text, opts) {
     text = text.replace(/[\u00A0\u202F]/g, ' ');
   }
 
-  // Replace ONLY EM DASH (—) with "; "
-  text = text.replace(/\u2014/g, '; ');
+  text = text
+    .replace(/\s*\u2014\s*/g, '; ')
+    .replace(/;\s+/g, '; ');  // ensure exactly one space after ;
 
   return text;
 }
