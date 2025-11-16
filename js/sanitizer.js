@@ -82,11 +82,24 @@ sanitizeBtn.addEventListener('click', () => {
 });
 
 copyBtn.addEventListener('click', () => {
-  const temp = document.createElement('textarea');
-  temp.value = outputDiv.innerHTML;
-  document.body.appendChild(temp);
-  temp.select();
-  document.execCommand('copy');
-  document.body.removeChild(temp);
-  alert('Sanitized HTML copied to clipboard');
+  const selection = window.getSelection();
+  selection.removeAllRanges();
+
+  const range = document.createRange();
+  range.selectNodeContents(outputDiv);
+  selection.addRange(range);
+
+  try {
+    const success = document.execCommand('copy');
+    if (success) {
+      alert('Sanitized text copied to clipboard');
+    } else {
+      alert('Copy command was not successful');
+    }
+  } catch (err) {
+    alert('Copy failed: ' + err);
+  }
+
+  // Optional: clear selection after copying
+  selection.removeAllRanges();
 });
