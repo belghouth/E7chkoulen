@@ -36,11 +36,8 @@ function sanitizeTextContent(text, opts) {
     text = text.replace(/[\u00A0\u202F]/g, ' ');
   }
 
-  // Normalize all dash-like characters to simple hyphen
-  text = text.replace(/[\u2014\u2013\u2015\u2212\u2012]/g, '-');
-
-  // collapse multiple hyphens (--- or --)
-  text = text.replace(/-{2,}/g, '-');
+  // Replace ONLY EM DASH (—) with "; "
+  text = text.replace(/\u2014/g, '; ');
 
   return text;
 }
